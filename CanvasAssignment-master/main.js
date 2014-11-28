@@ -1,8 +1,20 @@
+//X-Coordinate of smoke
+var smokeX = 230;
+//Y-Coordinate of smoke
+var smokeY = 30;
+//Horizontal size of smoke
+var horizontalScale = 0.6;
+//Vertical size of smoke
+var verticalScale = 0.3;
+
 function createCanvas() {
     var canvas = document.getElementById("house");
     if (canvas.getContext) {
         var ctx = canvas.getContext("2d");
+		
         drawHouse(ctx);
+		drawSmoke(ctx);
+		animation(ctx);
     } else {
         alert("Canvas not supported.");
     }
@@ -134,4 +146,73 @@ function drawHouse(ctx) {
    ctx.fill();
    ctx.stroke();
 
+}
+
+//Draws the smoke
+function drawSmoke(ctx){
+	var canvas = document.getElementById("house");
+	var ctx = canvas.getContext("2d");
+	
+	//Draw arc
+	var xArc = 0;
+	var yArc = 0;
+	var radius = 30;
+	ctx.save();
+	ctx.translate(smokeX, smokeY);
+	ctx.scale(horizontalScale, verticalScale);
+	
+	ctx.beginPath();
+	ctx.arc(xArc, yArc, radius, 0, 2 * Math.PI, false);
+	
+	ctx.restore();
+	
+	ctx.fillStyle = "grey";
+	ctx.fill();
+	ctx.lineWidth = 2;
+	ctx.strokeStyle = "grey";
+	ctx.stroke();
+	
+	ctx.restore();
+}
+		
+//Animates the smoke movement
+function animation(ctx) {
+	var canvas = document.getElementById("house");
+	var ctx = canvas.getContext("2d");
+	drawHouse(ctx);
+	drawSmoke(ctx);
+	setInterval(animateSmoke, 200);
+}
+		
+//Animates the smoke
+function animateSmoke(ctx) {
+	var canvas = document.getElementById("house");
+	var ctx = canvas.getContext("2d");
+	ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+	
+	drawHouse(ctx);
+	drawSmoke();
+	
+	//Moves the smoke to the right
+	smokeX += 5;
+		//Resets values
+		if (smokeX > ctx.canvas.width) {
+			smokeX = 230;
+			smokeY = 45;
+			horizontalScale = 1.0;
+			verticalScale = 0.3;
+		}
+	//Moves the smoke up
+	smokeY -= 5;
+		//Resets values
+		if (smokeY < 0) {
+			smokeX = 230;
+			smokeY = 30;
+			horizontalScale = 0.6;
+			verticalScale = 0.3;
+		}
+	//Increases horizontal size
+	horizontalScale += 0.1;
+	//Increases vertical size
+	verticalScale += 0.1;
 }
