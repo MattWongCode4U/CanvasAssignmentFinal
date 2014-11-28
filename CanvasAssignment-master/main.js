@@ -1,11 +1,11 @@
 //X-Coordinate of smoke
-var smokeX = 230;
+var smokeX = 220;
 //Y-Coordinate of smoke
 var smokeY = 30;
 //Horizontal size of smoke
-var horizontalScale = 0.6;
+var horizontalScale = 0.3;
 //Vertical size of smoke
-var verticalScale = 0.3;
+var verticalScale = 0.1;
 
 function createCanvas() {
     var canvas = document.getElementById("house");
@@ -175,7 +175,7 @@ function drawSmoke(ctx){
 	ctx.restore();
 }
 		
-//Animates the smoke movement
+//Animates the smoke movement using an interval.
 function animation(ctx) {
 	var canvas = document.getElementById("house");
 	var ctx = canvas.getContext("2d");
@@ -195,24 +195,24 @@ function animateSmoke(ctx) {
 	
 	//Moves the smoke to the right
 	smokeX += 5;
-		//Resets values
+		//Resets values if the smoke reaches the right side of the canvas.
 		if (smokeX > ctx.canvas.width) {
-			smokeX = 230;
-			smokeY = 45;
+			smokeX = 220;
+			smokeY = 30;
 			horizontalScale = 1.0;
 			verticalScale = 0.3;
 		}
 	//Moves the smoke up
 	smokeY -= 5;
-		//Resets values
+		//Resets values when the smoke reaches y = 0.
 		if (smokeY < 0) {
-			smokeX = 230;
+			smokeX = 220;
 			smokeY = 30;
-			horizontalScale = 0.6;
-			verticalScale = 0.3;
+			horizontalScale = 0.3;
+			verticalScale = 0.1;
 		}
-	//Increases horizontal size
+	//Increases horizontal size during the animation.
 	horizontalScale += 0.1;
-	//Increases vertical size
+	//Increases vertical size during the animation.
 	verticalScale += 0.1;
 }
